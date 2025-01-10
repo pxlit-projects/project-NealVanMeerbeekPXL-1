@@ -1,0 +1,16 @@
+name: "intranet-news-platform"
+services:
+  spring_cloud_db:
+    image: mysql:latest
+    ports:
+     - "3306:3306"
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: true
+    volumes:
+      - ./provision/mysql/init:/docker-entrypoint-initdb.d
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "15672:15672"
+      - "5672:5672"
