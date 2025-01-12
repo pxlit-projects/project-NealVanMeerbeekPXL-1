@@ -32,9 +32,9 @@ public class Post {
     private boolean published;
 
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("'PENDING'")
+    @ColumnDefault("'NOT_YET_PERFORMED'")
     @Builder.Default
-    private ReviewStatus reviewStatus = ReviewStatus.PENDING;
+    private ReviewStatus reviewStatus = ReviewStatus.NOT_YET_PERFORMED;
 
     @Lob
     @Column(columnDefinition = "TEXT")
@@ -43,6 +43,8 @@ public class Post {
     public void publish() {
         if (reviewStatus != ReviewStatus.APPROVED) {
             throw new DomainException("reviewStatus", true, "Post", "post has not been reviewed yet");
+        } else if (published) {
+            throw new DomainException("published", true, "Post", "post has already been published");
         }
         published = true;
     }

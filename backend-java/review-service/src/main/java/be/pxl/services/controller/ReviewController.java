@@ -6,7 +6,6 @@ import be.pxl.services.controller.request.DoReviewRequest;
 import be.pxl.services.controller.request.NewReviewRequest;
 import be.pxl.services.controller.request.ReviewPostRequest;
 import be.pxl.services.domain.Review;
-import be.pxl.services.domain.ReviewStatus;
 import be.pxl.services.security.AdminOnly;
 import be.pxl.services.services.IReviewService;
 import jakarta.validation.Valid;
@@ -48,12 +47,13 @@ public class ReviewController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @AdminOnly
     @PutMapping("/{id}")
     public ResponseEntity<Void> doReview(@PathVariable String id, @Valid @RequestBody DoReviewRequest reviewRequest) {
         log.info("PUT /review/{}", id);
         log.debug("Request Body: {}", reviewRequest);
         Review review = reviewService.doReview(id, reviewRequest);
-        postClient.sendNotification(review.getPost().getId().toString(), ReviewPostRequest.builder().reviewStatus(reviewRequest.isApproved() ? ReviewStatus.APPROVED : ReviewStatus.REJECTED).build());
+        postClient.sendNotification(review.getPost().getId().toString(), ReviewPostRequest.builder().reviewStatus(review.getStatus()).build());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

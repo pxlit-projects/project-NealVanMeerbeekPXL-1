@@ -1,0 +1,51 @@
+@if(review$ | async; as review) {
+  <div class="px-6 py-4">
+    <div class="font-bold text-xl mb-2">{{ review.post.title }}</div>
+    <p class="text-gray-700 mb-2">{{ review.post.creationDate | date: "dd/MM/yyyy" }}</p>
+    <p class="text-gray-700 mb-2">{{ review.post.author }}</p>
+    <p class="text-gray-700 mb-2">{{ review.post.content }}</p>
+    @if(review.reviewDate) {
+      <div class="bg-gray-200 rounded-md p-4 mt-8">
+        <div class="font-bold text-gray-700 mb-2">Submitted review</div>
+        <div class="text-gray-700 mb-2">{{ "Date: " + (review.reviewDate | date: "dd/MM/yyyy HH:mm") }}</div>
+        <div class="text-gray-700 mb-2">{{ "Reviewer: " + review.reviewer }}</div>
+        @if(review.status === 'Rejected') {
+          <div class="text-red-500 mb-2">Status: rejected</div>
+          <div class="text-gray-700 mb-2">Comments:</div>
+          @for(comment of review.comments; track comment.id) {
+            <p class="text-gray-700 mb-2 p-2 bg-white rounded-sm">{{ comment.content }}</p>
+          }
+        } @else {
+          <div class="text-green-500 mb-2">Status: approved</div>
+        }
+      </div>
+    } @else {
+      <form [formGroup]="reviewForm" (ngSubmit)="submitReviewForm(review.id!, false)">
+        <div class="mb-4">
+          <label for="reviewer" class="block text-gray-700 text-sm font-bold mb-2">Reviewer:</label>
+          <input type="text" id="title" formControlName="reviewer" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+          @if(reviewForm.get('reviewer')?.touched && reviewForm.get('reviewer')?.hasError('required')) {
+            <div class="text-red-500 text-sm mt-1">Reviewer is required</div>
+          }
+          @if(reviewForm.get('reviewer')?.touched && reviewForm.get('reviewer')?.hasError('minlength')) {
+            <div class="text-red-500 text-sm mt-1">Reviewer must be at least 3 characters</div>
+          }
+        </div>
+        <div formArrayName="comments">
+          @for(commentControl of comments.controls; track commentControl; let controlIndex = $index) {
+            <div class="mb-4">
+              <label class="block text gray-700 text-sm font-bold mb-2" for="comment-{{ controlIndex }}">Comment {{ controlIndex + 1 }}:</label>
+              <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="comment-{{ controlIndex }}" [formControlName]="controlIndex"></textarea>
+              @if(commentControl.touched && commentControl.hasError('required')) {
+                <div class="text-red-500 text-sm mt-1">Comment is required</div>
+              }
+            </div>
+          }
+          <button type="button" class="bg-gray-500 text-white py-3 px-6 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-200" (click)="addCommentFormControl()">Add additional comment</button>
+        </div>
+        <button type="button" class="bg-blue-500 mt-8 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline disabled:bg-blue-200" [disabled]="!reviewForm.valid" (click)="submitReviewForm(review.id!, true)">Approve post</button>
+        <button type="submit" class="bg-red-500 mt-8 m-2 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline disabled:bg-red-200" [disabled]="!reviewForm.valid">Deny post</button>
+      </form>
+    }
+  </div>
+}

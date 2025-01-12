@@ -1,5 +1,5 @@
 export interface Filter {
-  creationDate?: string;
+  creationDate: string | undefined;
   author: string;
   content: string;
 }

@@ -4,8 +4,9 @@ import { PostItemComponent } from '../post-item/post-item.component';
 import { Filter } from '../../../shared/models/filter.model';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-import { PostService } from '../../../shared/services/post.service';
 import type { Post } from '../../../shared/models/post.model';
+import type { ReadPostService } from '../../../shared/services/read-post.service';
+import { READ_POST_SERVICE } from '../../../app.routes';
 
 @Component({
   selector: 'app-post-list',
@@ -15,18 +16,10 @@ import type { Post } from '../../../shared/models/post.model';
   styleUrl: './post-list.component.css',
 })
 export class PostListComponent {
-  postService: PostService = inject(PostService);
-  filteredData$!: Observable<Post[]>;
-
-  ngOnInit(): void {
-    this.fetchData()
-  }
+  #postService: ReadPostService = inject(READ_POST_SERVICE);
+  filteredData$: Observable<Post[]> = this.#postService.getPosts();
 
   handleFilter(filter: Filter){
-    this.filteredData$ = this.postService.filterPosts(filter);
-  }
-
-  private fetchData(): void {
-    this.filteredData$ = this.postService.getPosts();
+    this.filteredData$ = this.#postService.filterPosts(filter);
   }
 }

@@ -2,6 +2,7 @@ package be.pxl.services.services;
 
 import be.pxl.services.controller.dto.CommentDTO;
 import be.pxl.services.controller.request.CreateCommentRequest;
+import be.pxl.services.controller.request.UpdateCommentRequest;
 import be.pxl.services.domain.Comment;
 import be.pxl.services.exception.ResourceNotFoundException;
 import be.pxl.services.repository.CommentRepository;
@@ -21,12 +22,6 @@ public class CommentService implements ICommentService {
     private final PostRepository postRepository;
 
     @Override
-    public List<CommentDTO> getCommentsByPostIdSortedByCreationDate(String postId) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "creationDate");
-        return commentRepository.findAllByPostId(UUID.fromString(postId), sort).stream().map(CommentDTO::new).toList();
-    }
-
-    @Override
     public CommentDTO addComment(String postId, CreateCommentRequest createCommentRequest) {
         return postRepository.findById(UUID.fromString(postId)).map(post -> {
             Comment comment = Comment.builder()
@@ -38,6 +33,24 @@ public class CommentService implements ICommentService {
                     .build();
             return new CommentDTO(commentRepository.save(comment));
         }).orElseThrow(() -> new ResourceNotFoundException("Post", "ID", postId));
+    }
+
+    @Override
+    public CommentDTO updateComment(String id, UpdateCommentRequest updateCommentRequest) {
+        return commentRepository.findById(UUID.fromString(id)).map(comment -> {
+            comment.setContent(updateCommentRequest.content());
+            return new CommentDTO(commentRepository.save(comment));
+        }).orElseThrow(() -> new ResourceNotFoundException("Comment", "ID", id));
+    }
+
+    @Override
+    public void deleteComment(String id) {
+        UUID commentId = UUID.fromString(id);
+        commentRepository.findById(commentId).ifPresentOrElse(comment -> {
+            commentRepository.deleteById(commentId);
+        }, () -> {
+            throw new ResourceNotFoundException("Comment", "ID", id);
+        });
     }
 
 //
@@ -62,7 +75,7 @@ public class CommentService implements ICommentService {
 //                .creationDate(newReviewRequest.getCreationDate())
 //                .title(newReviewRequest.getTitle())
 //                .author(newReviewRequest.getAuthor())
-//                .content(newReviewRequest.getContent())
+//                .postId(newReviewRequest.getContent())
 //                .build();
 //
 //        reviewRepository.save(Review.builder()
@@ -75,7 +88,7 @@ public class CommentService implements ICommentService {
 //    public Review doReview(String id, DoReviewRequest reviewRequest) {
 //        return reviewRepository.findById(UUID.fromString(id)).map(review -> {
 //            review.setReviewDate(LocalDateTime.now());
-//            reviewRequest.getComments().stream().map(commentRequest -> Comment.builder().review(review).content(commentRequest.getContent()).build()).toList().forEach(review::addComment);
+//            reviewRequest.getComments().stream().map(commentRequest -> Comment.builder().review(review).postId(commentRequest.getContent()).build()).toList().forEach(review::addComment);
 //            return reviewRepository.save(review);
 //        }).orElseThrow(() -> new ResourceNotFoundException("Review", "ID", id));
 //    }
@@ -97,7 +110,7 @@ public class CommentService implements ICommentService {
 //                .creationDate(newPostRequest.getCreationDate())
 //                .title(newPostRequest.getTitle())
 //                .author(newPostRequest.getAuthor())
-//                .content(newPostRequest.getContent())
+//                .postId(newPostRequest.getContent())
 //                .build();
 //        Post newPost = postRepository.save(post);
 //

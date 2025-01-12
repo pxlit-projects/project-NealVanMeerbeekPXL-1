@@ -1,10 +1,15 @@
-<div [ngClass]="{ 'border-2 border-yellow-500': post.published }" class="max-w-md mx-auto bg-white rounded-xl overflow-hidden shadow-md">
+<div [class]="{
+  'border-blue-500': post.published,
+  'border-yellow-500': post.reviewStatus === 'Pending',
+  'border-green-500': !post.published && post.reviewStatus === 'Approved',
+  'border-red-500': post.reviewStatus === 'Rejected'
+  }" class="max-w-md mx-auto border-2 bg-white rounded-xl overflow-hidden shadow-md">
   <img class="w-full h-36 object-cover" src="application.png" alt="Generic post image" />
   <div class="p-6">
     <h2 class="font-bold text-xl mb-2">{{ post.title }}</h2>
     <p class="text-gray-700 text-base">
       {{ "By " + post.author + " (" + post.creationDate + ")" }}
     </p>
-    <button [routerLink]="['/post', post.id]" routerLinkActive="router-link-active" class="bg-green-500 hover:bg-green-700 text-white float-right font-bold mt-4 mb-4 py-2 px-2 rounded">Details</button>
+    <button [routerLink]="['/posts', post.id]" routerLinkActive="router-link-active" class="bg-green-500 hover:bg-green-700 text-white float-right font-bold mt-4 mb-4 py-2 px-2 rounded">Details</button>
   </div>
 </div>

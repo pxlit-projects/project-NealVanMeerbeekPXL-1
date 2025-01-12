@@ -25,7 +25,7 @@ public class ReviewController {
     public ResponseEntity<Void> add(@PathVariable String postId, @Valid @RequestBody UpdatePostRequest updatePostRequest) {
         log.info("POST /review");
         log.debug("Request Body: {}", updatePostRequest);
-        PostDTO updatedPost = postService.updatePost(postId, updatePostRequest);
+        PostDTO updatedPost = postService.updatePostBeforeReview(postId, updatePostRequest);
         return reviewClient.submitPostForReview(NewReviewRequest.builder().id(updatedPost.getId().toString()).creationDate(updatedPost.getCreationDate()).title(updatedPost.getTitle()).author(updatedPost.getAuthor()).content(updatedPost.getContent()).build());
     }
 

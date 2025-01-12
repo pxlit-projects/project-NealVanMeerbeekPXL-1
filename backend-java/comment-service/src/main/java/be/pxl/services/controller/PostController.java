@@ -1,27 +1,28 @@
 package be.pxl.services.controller;
 
 import be.pxl.services.controller.dto.CommentDTO;
+import be.pxl.services.controller.dto.PostDTO;
 import be.pxl.services.controller.request.CreateCommentRequest;
 import be.pxl.services.services.ICommentService;
+import be.pxl.services.services.IPostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor
 @Slf4j
 public class PostController {
+    private final IPostService postService;
     private final ICommentService commentService;
 
     @GetMapping("/{postId}")
-    public ResponseEntity<List<CommentDTO>> findAllByPostId(@PathVariable String postId) {
+    public ResponseEntity<PostDTO> findById(@PathVariable String postId) {
         log.info("GET /post/{}", postId);
-        return new ResponseEntity<>(commentService.getCommentsByPostIdSortedByCreationDate(postId), HttpStatus.OK);
+        return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
     }
 
     @PostMapping("/{postId}")

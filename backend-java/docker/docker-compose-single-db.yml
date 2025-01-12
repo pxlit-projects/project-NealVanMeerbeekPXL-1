@@ -10,7 +10,7 @@ services:
       - ./provision/mysql/init:/docker-entrypoint-initdb.d
 
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:4-management-alpine
     ports:
       - "15672:15672"
       - "5672:5672"

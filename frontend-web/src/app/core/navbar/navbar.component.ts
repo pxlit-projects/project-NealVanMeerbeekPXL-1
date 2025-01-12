@@ -12,10 +12,10 @@ import { UserRole } from '../../shared/models/enums/user-role';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  authService = inject(AuthService);
-  admin = this.authService.isAdmin();
+  #authService = inject(AuthService);
+  isAdmin = this.#authService.isAdmin();
 
   onToggleAdmin() {
-    this.authService.setRole(this.admin ? UserRole.Admin : UserRole.User);
+    this.#authService.setRole(this.isAdmin ? UserRole.Admin : UserRole.User);
   }
 }

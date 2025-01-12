@@ -10,9 +10,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class DomainException extends RuntimeException {
     private final String resourceName;
-    private final String fieldName;
-    private final String requestedFieldValue;
+    private String fieldName;
+    private String requestedFieldValue;
     private final String reason;
+
+    public DomainException(String resourceName, String reason) {
+        super(String.format("No values can be changed on %s. Reason: %s", resourceName, reason));
+        this.resourceName = resourceName;
+        this.reason = reason;
+        log.debug("400 Bad Request: {}", getMessage());
+    }
 
     public DomainException(String fieldName, Object requestedFieldValue, String resourceName, String reason) {
         super(String.format("%s can't be set to '%s' on %s. Reason: %s", fieldName, requestedFieldValue, resourceName, reason));

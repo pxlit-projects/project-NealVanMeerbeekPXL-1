@@ -3,24 +3,24 @@ import { UserRole } from '../models/enums/user-role';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private roleKey = 'userRole';
+  #roleKey = 'userRole';
 
   constructor() {
-    if (!this.getRole()) {
+    if (!this.#getRole()) {
       this.setRole(UserRole.User);
     }
   }
 
   setRole(role: UserRole) {
-    localStorage.setItem(this.roleKey, role);
+    localStorage.setItem(this.#roleKey, role);
   }
 
   isAdmin(): boolean {
-      return this.getRole() === UserRole.Admin;
+      return this.#getRole() === UserRole.Admin;
   }
 
-  private getRole(): UserRole | null {
-    const storedRole = localStorage.getItem(this.roleKey);
+  #getRole(): UserRole | null {
+    const storedRole = localStorage.getItem(this.#roleKey);
     if (storedRole && (storedRole === UserRole.User || storedRole === UserRole.Admin)) {
         return storedRole as UserRole;
     }

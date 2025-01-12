@@ -1,8 +1,10 @@
 package be.pxl.services.domain;
 
+import be.pxl.services.exception.DomainException;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -19,7 +21,13 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Setter
+    private String reviewer;
+
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("'PENDING'")
+    @Builder.Default
+    private ReviewStatus status = ReviewStatus.PENDING;
+
     private LocalDateTime reviewDate;
 
     @OneToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
@@ -33,5 +41,18 @@ public class Review {
     public void addComment(Comment comment) {
         comments.add(comment);
         comment.setReview(this);
+    }
+
+    @Transactional
+    public void doReview(String reviewer, boolean approved, Set<Comment> comments) {
+        if (reviewDate != null) {
+            throw new DomainException("reviewDate, reviewer, status and comments", "the new values", "Review", "Review has already been done");
+        } else if (!approved && comments.isEmpty()) {
+            throw new DomainException("status", "Rejected", "Review", "Rejected review must have at least one comment");
+        }
+        this.reviewer = reviewer;
+        this.status = approved ? ReviewStatus.APPROVED : ReviewStatus.REJECTED;
+        this.reviewDate = LocalDateTime.now();
+        comments.forEach(this::addComment);
     }
 }

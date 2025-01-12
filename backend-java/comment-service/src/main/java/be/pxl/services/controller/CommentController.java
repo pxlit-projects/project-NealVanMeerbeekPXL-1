@@ -1,7 +1,6 @@
 package be.pxl.services.controller;
 
 import be.pxl.services.controller.dto.CommentDTO;
-import be.pxl.services.controller.request.CreateCommentRequest;
 import be.pxl.services.controller.request.UpdateCommentRequest;
 import be.pxl.services.services.ICommentService;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +21,12 @@ public class CommentController {
         log.info("PUT /comment/{}", id);
         log.debug("Request Body: {}", updateCommentRequest);
         return new ResponseEntity<>(commentService.updateComment(id, updateCommentRequest), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        log.info("DELETE /comment/{}", id);
+        commentService.deleteComment(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

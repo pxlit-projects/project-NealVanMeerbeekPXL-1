@@ -16,6 +16,6 @@ public class CreateCommentRequest {
     @NotBlank(message = "author must not be blank")
     String author;
 
-    @NotBlank(message = "content must not be blank")
+    @NotBlank(message = "postId must not be blank")
     String content;
 }

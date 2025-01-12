@@ -15,4 +15,5 @@ public interface IPostService {
     void publishPost(String id);
     PostDTO updatePost(String id, UpdatePostRequest newPostRequest);
     void updatePostReviewStatus(String id, ReviewPostRequest reviewPostRequest);
+    PostDTO updatePostBeforeReview(String postId, UpdatePostRequest updatePostRequest);
 }
