@@ -42,7 +42,7 @@ public class Post {
 
     public void publish() {
         if (reviewStatus != ReviewStatus.APPROVED) {
-            throw new DomainException("Post", "published", true, String.format("post review status is '%s'", reviewStatus));
+            throw new DomainException("reviewStatus", true, "Post", "post has not been reviewed yet");
         }
         published = true;
     }

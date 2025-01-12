@@ -1,25 +1,40 @@
 package be.pxl.services.services;
 
+import be.pxl.services.controller.dto.ReviewDTO;
+import be.pxl.services.controller.request.DoReviewRequest;
 import be.pxl.services.controller.request.NewReviewRequest;
+import be.pxl.services.domain.Comment;
 import be.pxl.services.domain.Post;
 import be.pxl.services.domain.Review;
 import be.pxl.services.exception.PendingReviewException;
+import be.pxl.services.exception.ResourceNotFoundException;
 import be.pxl.services.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ReviewService implements IReviewService {
     private final ReviewRepository reviewRepository;
-    // private final NotificationClient notificationClient;
+
+    @Override
+    public List<ReviewDTO> getAllReviews() {
+        return reviewRepository.findAll().stream().map(ReviewDTO::new).toList();
+    }
+
+    @Override
+    public ReviewDTO getReviewById(String id) {
+        return reviewRepository.findById(UUID.fromString(id)).map(ReviewDTO::new).orElseThrow(() -> new ResourceNotFoundException("Review", "ID", id));
+    }
 
     @Override
     public void addReview(NewReviewRequest newReviewRequest) {
         reviewRepository.findByReviewDateIsNullAndPostId(UUID.fromString(newReviewRequest.getId())).ifPresent(review -> {
-            throw new PendingReviewException("Review", newReviewRequest.getId());
+            throw new PendingReviewException();
         });
 
         Post post = Post.builder()
@@ -34,6 +49,15 @@ public class ReviewService implements IReviewService {
                 .id(UUID.randomUUID())
                 .post(post)
                 .build());
+    }
+
+    @Override
+    public Review doReview(String id, DoReviewRequest reviewRequest) {
+        return reviewRepository.findById(UUID.fromString(id)).map(review -> {
+            review.setReviewDate(LocalDateTime.now());
+            reviewRequest.getComments().stream().map(commentRequest -> Comment.builder().review(review).content(commentRequest.getContent()).build()).toList().forEach(review::addComment);
+            return reviewRepository.save(review);
+        }).orElseThrow(() -> new ResourceNotFoundException("Review", "ID", id));
     }
 
 //    @Override

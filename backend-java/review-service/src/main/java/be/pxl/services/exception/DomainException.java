@@ -14,8 +14,8 @@ public class DomainException extends RuntimeException {
     private final String requestedFieldValue;
     private final String reason;
 
-    public DomainException(String resourceName, String fieldName, Object requestedFieldValue, String reason) {
-        super(String.format("%s of %s can't be set to '%s'. Reason: %s", resourceName, fieldName, requestedFieldValue, reason));
+    public DomainException(String fieldName, Object requestedFieldValue, String resourceName, String reason) {
+        super(String.format("%s can't be set to '%s' on %s. Reason: %s", fieldName, requestedFieldValue, resourceName, reason));
         this.resourceName = resourceName;
         this.fieldName = fieldName;
         this.requestedFieldValue = requestedFieldValue.toString();

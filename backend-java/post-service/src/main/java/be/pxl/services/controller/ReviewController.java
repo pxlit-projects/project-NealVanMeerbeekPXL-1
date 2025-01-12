@@ -6,7 +6,6 @@ import be.pxl.services.controller.request.NewReviewRequest;
 import be.pxl.services.controller.request.UpdatePostRequest;
 import be.pxl.services.security.AdminOnly;
 import be.pxl.services.services.IPostService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

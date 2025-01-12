@@ -2,6 +2,7 @@ package be.pxl.services.services;
 
 import be.pxl.services.controller.dto.PostDTO;
 import be.pxl.services.controller.request.NewPostRequest;
+import be.pxl.services.controller.request.ReviewPostRequest;
 import be.pxl.services.controller.request.UpdatePostRequest;
 import jakarta.validation.Valid;
 
@@ -13,4 +14,5 @@ public interface IPostService {
     PostDTO addPost(NewPostRequest newPostRequest);
     void publishPost(String id);
     PostDTO updatePost(String id, UpdatePostRequest newPostRequest);
+    void updatePostReviewStatus(String id, ReviewPostRequest reviewPostRequest);
 }

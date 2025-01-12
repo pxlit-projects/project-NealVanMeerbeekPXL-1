@@ -32,6 +32,12 @@ export class PostService {
     return this.http.put<Post>(`${this.api}/${id}`, post);
   }
 
+  publishPost(id: string) {
+    return this.http.patch<never>(`${this.api}/${id}/published`, {
+      published: true
+    });
+  }
+
   filterPosts(filter: Filter): Observable<Post[]> {
     return this.http.get<Post[]>(this.api).pipe(map((posts) => posts.filter((post) => this.isPostMatchingFilter(post, filter))));
   }

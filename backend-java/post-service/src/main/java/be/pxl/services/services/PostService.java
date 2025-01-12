@@ -2,6 +2,7 @@ package be.pxl.services.services;
 
 import be.pxl.services.controller.dto.PostDTO;
 import be.pxl.services.controller.request.NewPostRequest;
+import be.pxl.services.controller.request.ReviewPostRequest;
 import be.pxl.services.controller.request.UpdatePostRequest;
 import be.pxl.services.domain.Post;
 import be.pxl.services.exception.ResourceAlreadyExistsException;
@@ -70,6 +71,14 @@ public class PostService implements IPostService {
             Post updatedPost = postRepository.save(post);
             return new PostDTO(updatedPost);
         }).orElseThrow(() -> new ResourceNotFoundException("Post", "ID", postId));
+    }
+
+    @Override
+    public void updatePostReviewStatus(String id, ReviewPostRequest reviewPostRequest) {
+        postRepository.findById(UUID.fromString(id)).map(post -> {
+            post.setReviewStatus(reviewPostRequest.reviewStatus());
+            return postRepository.save(post);
+        }).orElseThrow(() -> new ResourceNotFoundException("Post", "ID", id));
     }
 
 }

@@ -1,6 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import type { Observable } from 'rxjs';
-import type { Post } from '../models/post.model';
 import type { UpdatePost } from '../models/update-post.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';

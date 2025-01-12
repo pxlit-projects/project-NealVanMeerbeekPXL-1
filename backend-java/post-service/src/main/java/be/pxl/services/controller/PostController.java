@@ -3,6 +3,7 @@ package be.pxl.services.controller;
 import be.pxl.services.controller.dto.PostDTO;
 import be.pxl.services.controller.request.NewPostRequest;
 import be.pxl.services.controller.request.PublishPostRequest;
+import be.pxl.services.controller.request.ReviewPostRequest;
 import be.pxl.services.controller.request.UpdatePostRequest;
 import be.pxl.services.security.AdminOnly;
 import be.pxl.services.services.IPostService;
@@ -43,11 +44,19 @@ public class PostController {
     }
 
     @AdminOnly
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/published")
     public ResponseEntity<PostDTO> update(@PathVariable String id, @Valid @RequestBody UpdatePostRequest updatePostRequest) {
         log.info("PUT /post/{}", id);
         log.debug("Request Body: {}", updatePostRequest);
         return new ResponseEntity<>(postService.updatePost(id, updatePostRequest), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/reviewStatus")
+    public ResponseEntity<Void> updateReviewStatus(@PathVariable String id, @Valid @RequestBody ReviewPostRequest reviewPostRequest) {
+        log.info("PUT /post/{}/reviewStatus", id);
+        log.debug("Request Body: {}", reviewPostRequest);
+        postService.updatePostReviewStatus(id, reviewPostRequest);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @AdminOnly

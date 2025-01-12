@@ -37,7 +37,8 @@
         <div class="text-red-500 text-sm mt-1">Content must be at least 60 characters</div>
       }
     </div>
-      <button type="submit" class="bg-blue-500 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline disabled:bg-blue-200" [disabled]="!postForm.valid">Update Post</button>
-      <button type="button" class="bg-gray-500 m-2 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline disabled:bg-blue-200" [disabled]="!postForm.valid" (click)="onSubmitForReview()">Submit for Review</button>
-    </form>
+      <button type="submit" class="bg-blue-500 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline disabled:bg-blue-200" [disabled]="!postForm.valid">Save</button>
+      <button type="button" class="bg-gray-500 m-2 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-200" [disabled]="!postForm.valid" (click)="onSubmitForReview()">Submit for Review</button>
+      <button type="button" class="bg-red-500 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline disabled:bg-red-200" [disabled]="!postForm.valid" (click)="onPublish()">Publish</button>
+  </form>
 </div>

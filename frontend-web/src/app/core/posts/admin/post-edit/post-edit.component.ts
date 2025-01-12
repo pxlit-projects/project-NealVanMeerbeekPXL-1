@@ -6,6 +6,7 @@ import type { Post } from '../../../../shared/models/post.model';
 import type { Observable } from 'rxjs';
 import type { UpdatePost } from '../../../../shared/models/update-post.model';
 import { ReviewService } from '../../../../shared/services/review.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-post-edit',
@@ -26,6 +27,7 @@ export class PostEditComponent implements OnInit {
   });
   postService: PostService = inject(PostService);
   reviewService: ReviewService = inject(ReviewService);
+  toastrService: ToastrService = inject(ToastrService);
   router: Router = inject(Router);
 
   ngOnInit() {
@@ -57,7 +59,13 @@ export class PostEditComponent implements OnInit {
       ...this.postForm.value
     };
     this.reviewService.submitForReview(this.id, updatePost).subscribe(() => {
-      
+      this.toastrService.success('Post submitted for review.');
+    });
+  }
+
+  onPublish() {
+    this.postService.publishPost(this.id).subscribe(() => {
+      this.toastrService.success('Post published.');
     });
   }
 }
