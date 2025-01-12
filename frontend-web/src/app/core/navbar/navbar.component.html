@@ -12,9 +12,9 @@
           </li>
         }
         <li>
-          <form>
+          <form #toggleAdminForm="ngForm" (ngSubmit)="onToggleAdmin()">
             <label for="admin" class="hover:cursor-pointer py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Admin</label>
-            <input type="checkbox" class="m-1 ml-3 w-3 h-3" name="admin" id="admin" [(ngModel)]="admin" (change)="onToggleAdmin()" />
+            <input type="checkbox" class="m-1 ml-3 w-3 h-3" name="admin" id="admin" [(ngModel)]="admin" (change)="toggleAdminForm.onSubmit($event)" />
           </form>
         </li>
       </ul>

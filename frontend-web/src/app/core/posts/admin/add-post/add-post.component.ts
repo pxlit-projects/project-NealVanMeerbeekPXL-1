@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AddPost } from '../../../shared/models/add-post.model';
+import { AddPost } from '../../../../shared/models/add-post.model';
 import { Router } from '@angular/router';
-import { PostService } from '../../../shared/services/post.service';
+import { PostService } from '../../../../shared/services/post.service';
 
 @Component({
   selector: 'app-add-post',

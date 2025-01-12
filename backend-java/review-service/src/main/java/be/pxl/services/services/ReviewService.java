@@ -18,7 +18,7 @@ public class ReviewService implements IReviewService {
 
     @Override
     public void addReview(NewReviewRequest newReviewRequest) {
-        reviewRepository.findByReviewDateIsNotNullAndPostId(UUID.fromString(newReviewRequest.getId())).ifPresent(review -> {
+        reviewRepository.findByReviewDateIsNullAndPostId(UUID.fromString(newReviewRequest.getId())).ifPresent(review -> {
             throw new PendingReviewException("Review", newReviewRequest.getId());
         });
 

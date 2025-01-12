@@ -6,6 +6,7 @@ import type { Post } from '../models/post.model';
 import type { Filter } from '../models/filter.model';
 import type { AddPost } from '../models/add-post.model';
 import { DatePipe } from '@angular/common';
+import type { UpdatePost } from '../models/update-post.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class PostService {
     return this.http.post<Post>(this.api, post);
   }
 
-  updatePost(id: string, post: Post): Observable<Post> {
+  updatePost(id: string, post: UpdatePost): Observable<Post> {
     return this.http.put<Post>(`${this.api}/${id}`, post);
   }
 

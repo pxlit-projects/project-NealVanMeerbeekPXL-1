@@ -18,8 +18,7 @@ public class GatewayConfig {
         corsConfig.setMaxAge(3600L);
         corsConfig.setAllowedOrigins(List.of("http://localhost:4200"));
         corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"));
-        corsConfig.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
-        corsConfig.setAllowCredentials(true);
+        corsConfig.setAllowedHeaders(Arrays.asList("Content-Type", "X-USER-ROLE"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);

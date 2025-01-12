@@ -6,9 +6,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
 
   req = req.clone({
-    setHeaders: {
-      'X-USER-ROLE': authService.isAdmin() ? 'ADMIN' : 'USER'
-    }
+    headers: req.headers.append('X-USER-ROLE', authService.isAdmin() ? 'ADMIN' : 'USER')
   });
 
   return next(req);

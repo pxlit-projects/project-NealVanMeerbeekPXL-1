@@ -1,38 +1,23 @@
-import { Component, OnDestroy, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
-import { PostService } from '../../../shared/services/post.service';
-import { Post } from '../../../shared/models/post.model';
-import { Observable, Subscription } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { PostReadComponent } from "../post-read/post-read.component";
 import { ActivatedRoute } from '@angular/router';
-import type { UpdatePost } from '../../../shared/models/update-post.model';
+import type { Observable } from 'rxjs';
+import type { Post } from '../../../shared/models/post.model';
+import { PostService } from '../../../shared/services/post.service';
+import { PostEditComponent } from "../admin/post-edit/post-edit.component";
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-post-detail',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [PostReadComponent, PostEditComponent],
   templateUrl: './post-detail.component.html',
   styleUrl: './post-detail.component.css'
 })
-export class PostDetailComponent implements OnDestroy {
+export class PostDetailComponent {
   postService: PostService = inject(PostService);
+  authService: AuthService = inject(AuthService);
   route: ActivatedRoute = inject(ActivatedRoute);
   id: string = this.route.snapshot.params['id'];
-  sub!: Subscription;
-
   post$: Observable<Post> = this.postService.getPost(this.id);
-
-  // togglePublished(post: UpdatePost) {
-  //   post.published = !post.published;
-  //   this.sub = this.postService.updatePost(post).subscribe({
-  //     next: () => {
-  //       console.log('done!');
-  //     },
-  //   });
-  // }
-
-  ngOnDestroy(): void {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-  }
 }

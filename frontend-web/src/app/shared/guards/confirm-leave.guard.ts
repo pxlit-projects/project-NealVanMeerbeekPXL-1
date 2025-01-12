@@ -1,5 +1,5 @@
 import { CanDeactivateFn } from '@angular/router';
-import { AddPostComponent } from '../../core/posts/add-post/add-post.component';
+import { AddPostComponent } from '../../core/posts/admin/add-post/add-post.component';
 
 export const confirmLeaveGuard: CanDeactivateFn<AddPostComponent> = (component) => {
   if (component.postForm.dirty) {

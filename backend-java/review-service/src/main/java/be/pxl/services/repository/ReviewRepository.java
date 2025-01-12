@@ -7,5 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    Optional<Review> findByReviewDateIsNotNullAndPostId(UUID postId);
+    Optional<Review> findByReviewDateIsNullAndPostId(UUID postId);
 }

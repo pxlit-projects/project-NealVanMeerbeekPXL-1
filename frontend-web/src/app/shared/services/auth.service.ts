@@ -6,7 +6,9 @@ export class AuthService {
   private roleKey = 'userRole';
 
   constructor() {
-    this.setRole(UserRole.User);
+    if (!this.getRole()) {
+      this.setRole(UserRole.User);
+    }
   }
 
   setRole(role: UserRole) {

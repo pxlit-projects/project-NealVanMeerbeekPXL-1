@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "review-service")
 public interface ReviewClient {
     @PostMapping("/review/review")
-    ResponseEntity<Void> submitPostForReview(@Valid @RequestBody NewReviewRequest updatePostRequest);
+    ResponseEntity<Void> submitPostForReview(@Valid @RequestBody NewReviewRequest newReviewRequest);
 }
 
