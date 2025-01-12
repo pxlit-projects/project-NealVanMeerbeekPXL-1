@@ -26,8 +26,8 @@ export const postServiceProvider = {
 };
 
 export const routes: Routes = [
-  { path: 'posts', component: PostListComponent },
-  { path: 'posts/:id', component: PostDetailComponent },
+  { path: 'posts', component: PostListComponent, providers: [postServiceProvider] },
+  { path: 'posts/:id', component: PostDetailComponent, providers: [postServiceProvider] },
   { path: 'add', component: AddPostComponent, canActivate: [adminGuard], canDeactivate: [confirmLeaveGuard] },
   { path: 'reviews', component: ReviewListComponent, canActivate: [adminGuard] },
   { path: 'reviews/:id', component: ReviewDetailComponent, canActivate: [adminGuard] },

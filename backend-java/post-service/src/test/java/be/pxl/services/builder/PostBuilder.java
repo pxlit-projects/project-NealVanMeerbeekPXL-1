@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public final class PostBuilder {
-    public static final UUID ID = UUID.randomUUID();
+    public final UUID ID = UUID.randomUUID();
     public static final String TITLE = "A new product has been developed";
     public static final String AUTHOR = "John Smith";
     public static final boolean PUBLISHED = false;

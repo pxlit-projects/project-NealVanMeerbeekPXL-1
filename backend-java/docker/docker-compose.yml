@@ -40,7 +40,7 @@ services:
       MYSQL_ROOT_PASSWORD: 'admin'
 
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:4-management-alpine
     ports:
       - "15672:15672"
       - "5672:5672"

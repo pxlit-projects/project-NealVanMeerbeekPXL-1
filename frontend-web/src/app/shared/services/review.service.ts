@@ -15,7 +15,7 @@ export class ReviewService {
   #datePipe: DatePipe = inject(DatePipe);
 
   getReviews() {
-    return this.#http.get<Review[]>(this.#api).pipe(map((reviews) => reviews.map((review) => ({ ...review, post: { ...review.post, creationDate: this.#datePipe.transform(review.post.creationDate, 'yyyy-MM-dd')! } }))));
+    return this.#http.get<Review[]>(this.#api).pipe(map((reviews) => reviews.map((review) => ({ ...review, post: { ...review.post, creationDate: this.#datePipe.transform(review.post.creationDate, 'dd-MM-yyyy')! } }))));
   }
 
   getReviewById(id: string) {

@@ -1,6 +1,6 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { postServiceProvider, routes } from './app.routes';
+import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { authInterceptor } from './shared/interceptors/auth.interceptor';
@@ -20,6 +20,5 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideCustomToastr,
     DatePipe,
-    postServiceProvider
   ],
 };
