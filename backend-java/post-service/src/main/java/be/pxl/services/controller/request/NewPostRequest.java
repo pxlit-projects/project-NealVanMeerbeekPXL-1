@@ -16,10 +16,6 @@ public class NewPostRequest {
     @Pattern(regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", message = "id must be a valid UUIDv4")
     String id;
 
-    @NotNull
-    @Past(message = "creationDate must be a valid ISO-8601 date that lies in the past")
-    LocalDateTime creationDate;
-
     @NotBlank(message = "title must not be blank")
     String title;
 

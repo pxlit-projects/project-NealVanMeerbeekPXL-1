@@ -1,0 +1,42 @@
+<div class="container mx-auto mt-5">
+  <h2 class="text-xl mb-3">Add Post</h2>
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <div class="mb-4">
+      <label for="author" class="block text-gray-700 text-sm font-bold mb-2">Author:</label>
+      <input type="text" id="author" formControlName="author" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+      @if (postForm.get('author')?.touched && postForm.get('author')?.hasError('required')) {
+        <div class="text-red-500 text-sm mt-1">Author is required</div>
+      }
+      @if (postForm.get('author')?.touched && postForm.get('author')?.hasError('minlength')) {
+        <div class="text-red-500 text-sm mt-1">Author must be at least 3 characters</div>
+      }
+      @if (postForm.get('author')?.touched && postForm.get('author')?.hasError('maxlength')) {
+        <div class="text-red-500 text-sm mt-1">Author must be at most 60 characters</div>
+      }
+    </div>
+    <div class="mb-4">
+      <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Title:</label>
+      <input type="text" id="title" formControlName="title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+      @if (postForm.get('title')?.touched && postForm.get('title')?.hasError('required')){
+        <div class="text-red-500 text-sm mt-1">Title is required</div>
+      }
+      @if (postForm.get('title')?.touched && postForm.get('title')?.hasError('minlength')) {
+        <div class="text-red-500 text-sm mt-1">Title must be at least 16 characters</div>
+      }
+      @if (postForm.get('title')?.touched && postForm.get('title')?.hasError('maxlength')) {
+        <div class="text-red-500 text-sm mt-1">Title must be at most 100 characters</div>
+      }
+    </div>
+    <div class="mb-4">
+      <label for="content" class="block text-gray-700 text-sm font-bold mb-2">Content:</label>
+      <textarea id="content" formControlName="content" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+      @if (postForm.get('content')?.touched && postForm.get('content')?.hasError('required')) {
+        <div class="text-red-500 text-sm mt-1">Content is required</div>
+      }
+      @if (postForm.get('content')?.touched && postForm.get('content')?.hasError('minlength')) {
+        <div class="text-red-500 text-sm mt-1">Content must be at least 60 characters</div>
+      }
+    </div>
+    <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-blue-200" [disabled]="!postForm.valid">Create Post</button>
+  </form>
+</div>

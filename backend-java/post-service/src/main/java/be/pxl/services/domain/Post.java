@@ -21,7 +21,8 @@ public class Post {
     private UUID id;
 
     @Setter(AccessLevel.NONE)
-    private LocalDateTime creationDate;
+    @Builder.Default
+    private LocalDateTime creationDate = LocalDateTime.now();
 
     private String title;
 
@@ -32,7 +33,8 @@ public class Post {
 
     @Enumerated(EnumType.STRING)
     @ColumnDefault("'PENDING'")
-    private ReviewStatus reviewStatus;
+    @Builder.Default
+    private ReviewStatus reviewStatus = ReviewStatus.PENDING;
 
     @Lob
     @Column(columnDefinition = "TEXT")

@@ -6,8 +6,8 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "review")
@@ -16,17 +16,18 @@ import java.util.Set;
 @NoArgsConstructor
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Setter(AccessLevel.NONE)
+    private UUID id;
 
-    private LocalDateTime creationDate;
+    private LocalDateTime reviewDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
     private Post post;
 
     @Singular
     @OneToMany(mappedBy = "review", orphanRemoval = true, cascade = CascadeType.ALL)
-    private Set<Comment> comments = new HashSet<>();
+    private Set<Comment> comments;
 
     @Transactional
     public void addComment(Comment comment) {

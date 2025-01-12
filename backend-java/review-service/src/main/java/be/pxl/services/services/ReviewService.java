@@ -1,9 +1,14 @@
 package be.pxl.services.services;
 
 import be.pxl.services.controller.request.NewReviewRequest;
+import be.pxl.services.domain.Post;
+import be.pxl.services.domain.Review;
+import be.pxl.services.exception.PendingReviewException;
 import be.pxl.services.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -13,7 +18,22 @@ public class ReviewService implements IReviewService {
 
     @Override
     public void addReview(NewReviewRequest newReviewRequest) {
+        reviewRepository.findByReviewDateIsNotNullAndPostId(UUID.fromString(newReviewRequest.getId())).ifPresent(review -> {
+            throw new PendingReviewException("Review", newReviewRequest.getId());
+        });
 
+        Post post = Post.builder()
+                .id(UUID.fromString(newReviewRequest.getId()))
+                .creationDate(newReviewRequest.getCreationDate())
+                .title(newReviewRequest.getTitle())
+                .author(newReviewRequest.getAuthor())
+                .content(newReviewRequest.getContent())
+                .build();
+
+        reviewRepository.save(Review.builder()
+                .id(UUID.randomUUID())
+                .post(post)
+                .build());
     }
 
 //    @Override

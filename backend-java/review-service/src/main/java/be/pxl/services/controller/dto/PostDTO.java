@@ -14,7 +14,6 @@ public class PostDTO {
     LocalDateTime creationDate;
     String title;
     String author;
-    String reviewStatus;
     String content;
 
     public PostDTO(Post post) {
@@ -22,7 +21,6 @@ public class PostDTO {
         this.creationDate = post.getCreationDate();
         this.title = post.getTitle();
         this.author = post.getAuthor();
-        this.reviewStatus = post.getReviewStatus().toString();
         this.content = post.getContent();
     }
 

@@ -1,7 +1,6 @@
 package be.pxl.services.builder;
 
 import be.pxl.services.domain.Post;
-import be.pxl.services.domain.ReviewStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -12,7 +11,6 @@ public final class PostBuilder {
     public static final String TITLE = "A new product has been developed";
     public static final String AUTHOR = "John Smith";
     public static final boolean PUBLISHED = false;
-    public static final ReviewStatus REVIEW_STATUS = ReviewStatus.PENDING;
     public static final String CONTENT = """
             
             
@@ -39,7 +37,6 @@ public final class PostBuilder {
                 .creationDate(CREATION_DATE)
                 .title(TITLE)
                 .author(AUTHOR)
-                .reviewStatus(REVIEW_STATUS)
                 .content(CONTENT)
                 .build();
     }

@@ -9,26 +9,21 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "post")
-@Data
+@Value
 @SuperBuilder
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 public class Post {
     @Id
-    @Setter(AccessLevel.NONE)
-    private UUID id;
+    UUID id;
 
-    @Setter(AccessLevel.NONE)
-    private LocalDateTime creationDate;
+    LocalDateTime creationDate;
 
-    private String title;
+    String title;
 
-    private String author;
-
-    @Enumerated(EnumType.STRING)
-    private ReviewStatus reviewStatus;
+    String author;
 
     @Lob
     @Column(columnDefinition = "TEXT")
-    private String content;
+    String content;
 
 }

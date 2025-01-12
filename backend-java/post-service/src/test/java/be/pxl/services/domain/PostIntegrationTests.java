@@ -48,7 +48,6 @@ public class PostIntegrationTests {
     public void testEmployeeIsAddedToRepositoryWhenAllConstraintsAreSatisfied() throws Exception {
         NewPostRequest newPostRequest = NewPostRequest.builder()
                 .id(ID.toString())
-                .creationDate(CREATION_DATE)
                 .title(TITLE)
                 .author(AUTHOR)
                 .content(CONTENT)

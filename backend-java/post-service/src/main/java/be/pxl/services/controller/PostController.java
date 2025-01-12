@@ -4,6 +4,7 @@ import be.pxl.services.controller.dto.PostDTO;
 import be.pxl.services.controller.request.NewPostRequest;
 import be.pxl.services.controller.request.PublishPostRequest;
 import be.pxl.services.controller.request.UpdatePostRequest;
+import be.pxl.services.security.AdminOnly;
 import be.pxl.services.services.IPostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +28,13 @@ public class PostController {
         return postService.getAllPosts();
     }
 
-//    @GetMapping("/{id}")
-//    public PostDTO findById(@PathVariable Long id) {
-//        log.info("GET /post/{id}");
-//        return postService.getPostById(id);
-//    }
+    @GetMapping("/{id}")
+    public PostDTO findById(@PathVariable String id) {
+        log.info("GET /post/{id}");
+        return postService.getPostById(id);
+    }
 
+    @AdminOnly
     @PostMapping
     public ResponseEntity<PostDTO> add(@Valid @RequestBody NewPostRequest newPostRequest) {
         log.info("POST /post");
@@ -40,6 +42,7 @@ public class PostController {
         return new ResponseEntity<>(postService.addPost(newPostRequest), HttpStatus.CREATED);
     }
 
+    @AdminOnly
     @PutMapping("/{id}")
     public ResponseEntity<PostDTO> update(@PathVariable String id, @Valid @RequestBody UpdatePostRequest updatePostRequest) {
         log.info("PUT /post/{}", id);
@@ -47,6 +50,7 @@ public class PostController {
         return new ResponseEntity<>(postService.updatePost(id, updatePostRequest), HttpStatus.OK);
     }
 
+    @AdminOnly
     @PatchMapping("/{id}")
     public ResponseEntity<Void> publish(@PathVariable String id, @Valid @RequestBody PublishPostRequest publishPostRequest) {
         log.info("PATCH /post/{} (publish)", id);

@@ -8,7 +8,6 @@ import java.util.UUID;
 
 public final class PostBuilder {
     public static final UUID ID = UUID.randomUUID();
-    public static final LocalDateTime CREATION_DATE = LocalDateTime.of(2020, 1, 1, 0, 0);
     public static final String TITLE = "A new product has been developed";
     public static final String AUTHOR = "John Smith";
     public static final boolean PUBLISHED = false;
@@ -36,7 +35,6 @@ public final class PostBuilder {
         return Post
                 .builder()
                 .id(ID)
-                .creationDate(CREATION_DATE)
                 .title(TITLE)
                 .author(AUTHOR)
                 .published(PUBLISHED)

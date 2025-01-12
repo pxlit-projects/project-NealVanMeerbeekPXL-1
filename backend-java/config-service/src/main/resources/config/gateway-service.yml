@@ -1,5 +1,6 @@
 server:
   port: 8086
+  forward-headers-strategy: native
 
 spring:
   cloud:
@@ -24,32 +25,21 @@ spring:
           uri: lb://post-service
           predicates:
             - Path=/post/**
-          filters:
-            - RewritePath=/post/(?<path>.*), /$\{path}
 
         - id: review-service
           uri: lb://review-service
           predicates:
             - Path=/review/**
-          filters:
-            - RewritePath=/review/(?<path>.*), /$\{path}
-
-        - id: openapi
-          uri: http://localhost:${server.port}
-          predicates:
-            - Path=/v3/api-docs/**
-          filters:
-            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/api/v3/api-docs
 
 springdoc:
   swagger-ui:
     use-root-path: true
     urls:
       - name: post
-        url: /v3/api-docs/post/
+        url: /post/v3/api-docs
 
       - name: review
-        url: /v3/api-docs/review/
+        url: /review/v3/api-docs
   webjars:
     prefix: ""
   cache:

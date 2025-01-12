@@ -37,7 +37,6 @@ public class PostService implements IPostService {
 
         Post post = Post.builder()
                 .id(UUID.fromString(newPostRequest.getId()))
-                .creationDate(newPostRequest.getCreationDate())
                 .title(newPostRequest.getTitle())
                 .author(newPostRequest.getAuthor())
                 .content(newPostRequest.getContent())
